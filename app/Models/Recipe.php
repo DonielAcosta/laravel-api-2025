@@ -9,18 +9,15 @@ class Recipe extends Model
 {
     use HasFactory;
 
-    public function category()
-    {
+    public function category(){
         return $this->belongsTo(Category::class);
     }
     
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
     }
     
-    public function tags()
-    {
+    public function tags(){
         return $this->belongsToMany(Tag::class);
     }
     
