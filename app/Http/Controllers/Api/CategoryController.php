@@ -10,8 +10,10 @@ class CategoryController extends Controller{
     public function index(){
         return Category::all();
     }
-
+    public function store(){}
     public function show(Category $category){
         return $category->load('recipes');
     }
+    public function update(){}
+    public function destroy(){}
 }
