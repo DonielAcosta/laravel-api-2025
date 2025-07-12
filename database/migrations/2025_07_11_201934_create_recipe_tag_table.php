@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('recipe_tag', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('recipe_id');
-            $table->foreignId('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-
-            $table->unsignedBigInteger('tag_id');
-            $table->foreignId('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
         });
     }
 
