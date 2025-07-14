@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\TagController;
 
 use App\Http\Controllers\Api\LoginController;
 
-Route::get('login',            [LoginController::class,'store']);
+Route::post('login',            [LoginController::class,'store']);
 
 Route::middleware('auth:sanctum')->group(function(){
 

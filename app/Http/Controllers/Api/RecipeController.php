@@ -18,11 +18,8 @@ class RecipeController extends Controller
     }
 
     public function store(StoreRecipeRequest $request){
-        $recipe = Recipe::create($request->all());
-
-        // if($tags = json_decode($request->tags)){
-        //     $recipe->tags()->attach($tags);
-        // }
+        $recipe = $request->user()->recipes()->create($request->all());
+        $recipe->tags()->attach(json_decode($request->tags));
         return response()->json(new RecipeResource($recipe),Response::HTTP_CREATED);
     }
     public function show(Recipe $recipe){
@@ -31,6 +28,7 @@ class RecipeController extends Controller
     }
     public function update( UpdateRecipeRequest $request,Recipe $recipe){
         // dd($request->all());
+        $this->authorize('update',$recipe);
         $recipe->update($request->all());
 
         if($tags = json_decode($request->tags)){
@@ -40,6 +38,8 @@ class RecipeController extends Controller
     }
 
     public function destroy(Recipe $recipe){
+        $this->authorize('delete',$recipe);
+
         $recipe->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
