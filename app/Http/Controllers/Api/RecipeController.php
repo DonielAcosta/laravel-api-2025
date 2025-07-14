@@ -20,6 +20,10 @@ class RecipeController extends Controller
     public function store(StoreRecipeRequest $request){
         $recipe = $request->user()->recipes()->create($request->all());
         $recipe->tags()->attach(json_decode($request->tags));
+
+        $recipe->image = $request->file('image')->store('recipes','public');
+        $recipe->save();
+
         return response()->json(new RecipeResource($recipe),Response::HTTP_CREATED);
     }
     public function show(Recipe $recipe){
@@ -34,6 +38,13 @@ class RecipeController extends Controller
         if($tags = json_decode($request->tags)){
             $recipe->tags()->sync($tags);
         }
+
+        if($request->file('image')){
+
+            $recipe->image = $request->file('image')->store('recipes','public');
+            $recipe->save();
+        }
+        
         return response()->json(new RecipeResource($recipe),Response::HTTP_OK);
     }
 
