@@ -1,6 +1,7 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controllers\Api\V1;
+
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,7 +23,7 @@ class RecipeTest extends TestCase
         Category::factory()->create();
         $recipes = Recipe::factory(2)->create();
 
-        $response = $this->getJson('/api/recipes');
+        $response = $this->getJson('/api/v1/recipes');
         $response->assertStatus(Response::HTTP_OK)->
         assertJsonCount(2, 'data')
         ->assertJsonStructure([
@@ -80,7 +81,7 @@ class RecipeTest extends TestCase
             'image' => UploadedFile::fake()->image('recipe.png'),
         ];
     
-        $response = $this->postJson('/api/recipes', $data); // Corregida la URL
+        $response = $this->postJson('/api/v1/recipes', $data); // Corregida la URL
         $response->assertStatus(Response::HTTP_CREATED);
     
         // opcional pero es para una prueba buena
@@ -103,7 +104,7 @@ class RecipeTest extends TestCase
 
         $recipe = Recipe::factory()->create();
 
-        $response = $this->getJson('/api/recipes/' . $recipe->id);
+        $response = $this->getJson('/api/v1/recipes/' . $recipe->id);
         $response->assertStatus(Response::HTTP_OK) //200
         ->assertJsonStructure([
             'data' =>[
@@ -137,7 +138,7 @@ class RecipeTest extends TestCase
 
         ];
     
-        $response = $this->putJson('/api/recipes/' .$recipe->id, $data); // Corregida la URL
+        $response = $this->putJson('/api/v1/recipes/' .$recipe->id, $data); // Corregida la URL
         $response->assertStatus(Response::HTTP_OK);
     
         // opcional pero es para una prueba buena
@@ -156,7 +157,7 @@ class RecipeTest extends TestCase
 
         $recipe = Recipe::factory()->create();
 
-        $response = $this->deleteJson('/api/recipes/' . $recipe->id);
+        $response = $this->deleteJson('/api/v1/recipes/' . $recipe->id);
         $response->assertStatus(Response::HTTP_NO_CONTENT); //200;
     }
 }
